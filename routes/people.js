@@ -27,8 +27,10 @@ exports.create = function(req, res) {
 };
 
 exports.read = function(req, res) {
-  var person = db.get('people', req.id)
-    .then(res.json(person));
+  console.log('about to request ' + req.id);
+  db.get('people', req.id)
+  .then(res.json.bind(res))
+  .done();
 };
 
 exports.update = function(req, res) {

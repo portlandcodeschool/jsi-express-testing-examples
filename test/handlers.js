@@ -137,6 +137,7 @@ describe('handlers', function() {
         var req = { body:  body };
         var res = {};
         var verify = function() {
+          console.log('calling a passing verify with ' + body.lastName);
           expect(res.json).to.have.been.calledOnce;
           expect(res.json.getCall(0).args[0]).to.equal(404);
           done();
@@ -151,9 +152,7 @@ describe('handlers', function() {
         var req = { id:  1 };
         var res = {};
         var verify = function() {
-          console.log('Verify has been called');
           var obj = res.json.getCall(0).args[0];
-          console.log(obj);
           expect(res.json).to.have.been.calledOnce;
           expect(obj).to.deep.equal(_.extend({}, fixtures[0]));
           done();
