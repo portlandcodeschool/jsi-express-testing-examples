@@ -175,7 +175,22 @@ describe('handlers', function() {
         res.json = sinon.spy(verify);
         routes.people.read(req, res);
       });
+
+      it('rejects a request with no body', function (done) {
+        var req = {};
+        var res = {};
+        var verify = function() {
+          var obj = res.json.getCall(0).args[0];
+          expect(res.json).to.have.been.calledOnce;
+          expect(obj).to.equal(404);
+          done();
+        };
+        res.json = sinon.spy(verify);
+        routes.people.read(req, res);
+      });
     });
+
+
 
     describe('update function', function() {
       it('is pending');
