@@ -27,7 +27,14 @@ exports.create = function(req, res) {
 };
 
 exports.read = function(req, res) {
-  res.json({});
+  if (!req.body || !req.body.id) {
+    return res.json(404);
+  }
+  db.get('people', req.body.id)
+  .then(function (result) {
+    res.json(result);
+  })
+  .done();
 };
 
 exports.update = function(req, res) {

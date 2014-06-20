@@ -147,8 +147,50 @@ describe('handlers', function() {
     });
 
     describe('read function', function() {
-      it('is pending');
+      it('reads the id from the request', function (done) {
+        var body = { id: 1 };
+        var req = { body:  body };
+        var res = {};
+        var verify = function() {
+          var obj = res.json.getCall(0).args[0];
+          expect(res.json).to.have.been.calledOnce;
+          expect(db.get).to.have.been.calledWith('people', 1);
+          expect(obj).to.deep.equal(_.extend({}, fixtures[0]));
+          done();
+        };
+        res.json = sinon.spy(verify);
+        routes.people.read(req, res);
+      });
+
+      it('rejects a request with no id', function (done) {
+        var body = {};
+        var req = { body:  body };
+        var res = {};
+        var verify = function() {
+          var obj = res.json.getCall(0).args[0];
+          expect(res.json).to.have.been.calledOnce;
+          expect(obj).to.equal(404);
+          done();
+        };
+        res.json = sinon.spy(verify);
+        routes.people.read(req, res);
+      });
+
+      it('rejects a request with no body', function (done) {
+        var req = {};
+        var res = {};
+        var verify = function() {
+          var obj = res.json.getCall(0).args[0];
+          expect(res.json).to.have.been.calledOnce;
+          expect(obj).to.equal(404);
+          done();
+        };
+        res.json = sinon.spy(verify);
+        routes.people.read(req, res);
+      });
     });
+
+
 
     describe('update function', function() {
       it('is pending');
